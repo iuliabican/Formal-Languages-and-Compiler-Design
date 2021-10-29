@@ -51,10 +51,10 @@ public class CustomHashTable {
         }
         if (symbolTable[nextAvailablePosition] == null) {
             symbolTable[nextAvailablePosition] = identifier;
-            System.out.println("Insert " + identifier + " at position " + nextAvailablePosition);
+//            System.out.println("Insert " + identifier + " at position " + nextAvailablePosition);
             return true;
         }
-        System.out.println("Insert failed.");
+//        System.out.println("Insert failed.");
         return false;
     }
 
@@ -76,6 +76,10 @@ public class CustomHashTable {
             hashValue ++;
         }
         return -1;
+    }
+
+    public String[] getSymTable() {
+        return symbolTable;
     }
 
     @Override

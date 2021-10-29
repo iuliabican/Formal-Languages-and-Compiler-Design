@@ -1,0 +1,18 @@
+begin
+in number n;
+var number myVector[50];
+
+loop i start 0 stop n
+	myVector[i] = in number a;
+end;
+
+var number suma;
+suma = 0;
+
+loop i start 0 stop n
+	suma = suma + myVector[i];
+end;
+
+out "Suma numerelor este:";
+out suma;
+endd.
