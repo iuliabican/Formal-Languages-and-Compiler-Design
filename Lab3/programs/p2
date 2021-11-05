@@ -2,7 +2,7 @@ begin
 in number n;
 var bool isPrim;
 
-is (n <= 1) ? then isPrim = False end;
+is (n <= -1) ? then isPrim = False end;
 
 loop i start 2 stop n
     is (n % i == 0) ? then isPrim = False
