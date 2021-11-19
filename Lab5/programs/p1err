@@ -1,0 +1,14 @@
+begin
+in number a;
+in number 7b;
+in number -0;
+in number +0;
+var number maxim;
+
+is (a >= b) and (a >= c) ? then maxim = -1 - 1 end;
+is (b >= a) and (b >= c) ? then maxim = b end;
+is (c >= a) and (c >= b) ? then maxim = c end;
+
+out "Maximul celor trei numere este:;
+out maxim;
+endd.
