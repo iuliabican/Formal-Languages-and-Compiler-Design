@@ -3,8 +3,8 @@ package model;
 import java.util.List;
 
 public class Production {
-    private List<String> symbolList;
-    private List<List<String>> ruleList;
+    private List<String> symbolList;      // [S]
+    private List<List<String>> ruleList; // [ [a, S], [b, S, c], [d, A] ]
 
     public Production(List<String> symbolList, List<List<String>> ruleList) {
         this.symbolList = symbolList;

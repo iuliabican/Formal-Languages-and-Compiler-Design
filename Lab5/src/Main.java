@@ -100,7 +100,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        Grammar grammar = new Grammar("src/data/grammar.txt");
+        Grammar grammar = new Grammar("src/data/g1.txt");
         grammar.readFromFile();
 
         while (true) {

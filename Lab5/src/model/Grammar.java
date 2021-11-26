@@ -53,7 +53,15 @@ public class Grammar {
             List<List<String>> rules = new ArrayList<>();
             List<String> symbols = new ArrayList<>();
 
-            rules.addAll(Arrays.asList(Arrays.asList(rightHandSide.split("\\|"))));
+
+            for (String rule: rightHandSide.split("\\|")){  //  ["a b", "b C s"]
+                ArrayList<String> items = new ArrayList<>();
+                for (String item: rule.split(" ")){         // ["a", "b"]
+                    items.add(item);
+                }
+                rules.add(items);
+            }
+
             symbols.addAll(Arrays.asList(leftHandSide.split(" ")));
 
             if(symbols.size()>1) // if there isn't a single symbol on the left-hand side
