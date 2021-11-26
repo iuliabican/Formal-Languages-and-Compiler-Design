@@ -1,0 +1,31 @@
+SET OF NON-TERMINALS
+program declaration compound_statement statement assign_statement io_statement input_statement output_statement for_statement while_statement if_statement expression numerical_expression condition relation identifier inputList outputList constant operator char_const int_const identifier digit non_zero_digit letter uppercase_letter lowercase_letter
+SET OF TERMINALS
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z _ 0 1 2 3 4 5 6 7 8 9 + - * / % = < > [ ] { } ( ) : . ' " \s \t \n int char const string else if output input for while bool true false @
+PRODUCTIONS
+program->compound_statement
+compound_statement->compound_statement|compound_statement statement
+statement->assign_statement|io_statement|declaration
+assign_statement->identifier = expression
+io_statement->input_statement|output_statement
+input_statement->input ( identifier )
+output_statement->output ( expression )
+for_statement->for ( assign_statement ; condition ; numerical_expression )
+while_statement->while ( condition ) statement
+if_statement->if ( condition ) statement
+expression->numerical_expression|char_const|identifier
+numerical_expression->expression operator expression|int_const
+condition->expression relation expression
+operator->+|-|*|/|%
+relation-><|>|==|<=|>=
+letter->uppercaseLetter|lowercaseLetter
+uppercaseLetter->A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
+lowercaseLetter->a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z
+digit->0|1|2|3|4|5|6|7|8|9
+non_zero_digit->1|2|3|4|5|6|7|8|9
+identifier->letter|letter letter|digit|letter identifier|digit identifier
+int_const->non_zero_digit|int_const digit
+char_const->letter|digit
+string_const->" letter|digit|_|letter string_const|digit string_const|_ string_const "
+STARTING SYMBOL
+program

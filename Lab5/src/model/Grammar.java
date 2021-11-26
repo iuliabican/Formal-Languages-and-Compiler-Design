@@ -9,15 +9,16 @@ import java.util.*;
 public class Grammar {
     private List<String> setOfNonTerminals;
     private List<String> setOfTerminals;
-    private HashMap<String, List<String>> setOfProductions;
     private String startingSymbol;
     private String fileName;
+    private List<Production> setOfProductions;
+    private Boolean cfgFlag = true;
 
     public Grammar(String fileName) {
         this.fileName = fileName;
         this.setOfNonTerminals = new ArrayList<String>();
         this.setOfTerminals = new ArrayList<String>();
-        this.setOfProductions = new HashMap<>();
+        this.setOfProductions = new ArrayList<>();
         this.startingSymbol = "";
     }
 
@@ -37,21 +38,28 @@ public class Grammar {
 
         // Productions
         String productionsText = scanner.nextLine();
-        String production = "";
+        String line = "";
 
         //  As long as we have productions, we should read them
         while (true) {
-            production = scanner.nextLine();
-            if (production.equals("STARTING SYMBOL")) {
+            line = scanner.nextLine();
+            if (line.equals("STARTING SYMBOL")) {
                 break;
             }
 
-            List<String> productions = Arrays.asList(production.split(" -> "));
-            List<String> states = Arrays.asList(productions.get(1).split(" \\| "));
+            var leftHandSide = line.split("->")[0];
+            var rightHandSide = line.split("->")[1];
 
-            Pair<String, List<String>> model = new Pair<>(productions.get(0), states);
+            List<List<String>> rules = new ArrayList<>();
+            List<String> symbols = new ArrayList<>();
 
-            this.setOfProductions.put(model.getKey(), model.getValue());
+            rules.addAll(Arrays.asList(Arrays.asList(rightHandSide.split("\\|"))));
+            symbols.addAll(Arrays.asList(leftHandSide.split(" ")));
+
+            if(symbols.size()>1) // if there isn't a single symbol on the left-hand side
+                cfgFlag = false;
+
+            setOfProductions.add(new Production(symbols, rules));
         }
 
         // Starting Symbol
@@ -76,13 +84,11 @@ public class Grammar {
         this.setOfTerminals = setOfTerminals;
     }
 
-    public HashMap<String, List<String>> getSetOfProductions() {
-        return setOfProductions;
+    public List<Production> getSetOfProductions() {
+        return  setOfProductions;
     }
 
-    public void setSetOfProductions(HashMap<String, List<String>> setOfProductions) {
-        this.setOfProductions = setOfProductions;
-    }
+    public void setSetOfProductions(List<Production> setOfProductions) { this.setOfProductions = setOfProductions; }
 
     public String getStartingSymbol() {
         return startingSymbol;
@@ -99,5 +105,6 @@ public class Grammar {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    // TODO Function for CFG Check
+
+    public Boolean isCFG(){return cfgFlag;}
 }

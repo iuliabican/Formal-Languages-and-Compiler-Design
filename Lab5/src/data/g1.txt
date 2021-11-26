@@ -3,7 +3,7 @@ S,A
 SET OF TERMINALS
 a,b,c,d
 PRODUCTIONS
-S -> aS | bSc | dA
-A -> dc
+S->a S|b S c|d A
+A->d c
 STARTING SYMBOL
 S

@@ -95,12 +95,12 @@ public class Main {
         System.out.println("2 - Show terminals");
         System.out.println("3 - Show productions");
         System.out.println("4 - Show starting symbol");
-        System.out.println("5 - Production for given non-terminal");
+        System.out.println("5 - Show if CFG");
         System.out.println("0 - Exit \n");
     }
 
     public static void main(String[] args) throws IOException {
-        Grammar grammar = new Grammar("D:/YearIII/FLCD/Labs/Formal-Languages-and-Compiler-Design/Lab5/src/data/g1.txt");
+        Grammar grammar = new Grammar("src/data/grammar.txt");
         grammar.readFromFile();
 
         while (true) {
@@ -123,7 +123,7 @@ public class Main {
                     break;
                 case "3":
                     System.out.println("Productions: ");
-                    System.out.println(grammar.getSetOfProductions());
+                    grammar.getSetOfProductions().forEach(System.out::println);
                     System.out.println("\n");
                     break;
                 case "4":
@@ -132,7 +132,11 @@ public class Main {
                     System.out.println("\n");
                     break;
                 case "5":
-                    //TODO Check CFG
+                    if (grammar.isCFG())
+                        System.out.println("The grammar is context free");
+                    else
+                        System.out.println("The grammar is context sensitive");
+                    System.out.println("\n");
                     break;
                 case "0":
                     System.exit(0);
