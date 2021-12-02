@@ -1,7 +1,5 @@
 package model;
 
-import javafx.util.Pair;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -9,6 +7,7 @@ import java.util.*;
 public class Grammar {
     private List<String> setOfNonTerminals;
     private List<String> setOfTerminals;
+    private List<Rule> rules;
     private String startingSymbol;
     private String fileName;
     private List<Production> setOfProductions;
@@ -53,16 +52,19 @@ public class Grammar {
             List<List<String>> rules = new ArrayList<>();
             List<String> symbols = new ArrayList<>();
 
+            symbols.addAll(Arrays.asList(leftHandSide.split(" ")));
+
 
             for (String rule: rightHandSide.split("\\|")){  //  ["a b", "b C s"]
                 ArrayList<String> items = new ArrayList<>();
                 for (String item: rule.split(" ")){         // ["a", "b"]
                     items.add(item);
                 }
+                Rule ruleObject = new Rule(symbols.get(0), items);
+                this.rules.add(ruleObject);
                 rules.add(items);
             }
 
-            symbols.addAll(Arrays.asList(leftHandSide.split(" ")));
 
             if(symbols.size()>1) // if there isn't a single symbol on the left-hand side
                 cfgFlag = false;
@@ -74,6 +76,16 @@ public class Grammar {
         this.startingSymbol = scanner.nextLine();
 
         scanner.close();
+    }
+
+    public HashSet<Rule> getRulesBySymbol(String symbol){
+        HashSet<Rule> rulesBySymbol = new HashSet<>();
+        for (Rule rule: this.rules){
+            if (rule.getLhs().equals(symbol)){
+                rulesBySymbol.add(rule);
+            }
+        }
+        return rulesBySymbol;
     }
 
     public List<String> getSetOfNonTerminals() {

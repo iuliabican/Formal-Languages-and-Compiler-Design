@@ -5,27 +5,39 @@ import java.util.List;
 
 public class ItemLR0 {
 
-    protected int dotPointer;
-    private List<String> rule;
+    private int dotPointer;
+    private Rule rule;
     private String symbol;
 
-    public ItemLR0(Rule r) {
-        //todo
+    public ItemLR0(int dotPointer){
+        this.dotPointer = dotPointer;
     }
 
-    public ItemLR0(String leftSide, String[] rightSide, int dotPointer) {
-        //todo
+    public ItemLR0(Rule rule) {
+        this.rule = rule;
     }
 
-    public ItemLR0(ItemLR0 item) {
-        //todo
+    public ItemLR0(String leftSide, List<String> rightSide, int dotPointer) {
+        this.rule = new Rule(leftSide, rightSide);
+        this.dotPointer = dotPointer;
     }
 
 
     @Override
     public String toString() {
-        //todo
-        return "";
+        StringBuilder result = new StringBuilder("");
+        result.append(rule.getLhs() + " -> ");
+
+        for(int i=0; i<rule.getRhs().size(); i++){
+            if (i == dotPointer)
+                result.append(". ");
+            result.append(rule.getRhs().get(i) + " ");
+        }
+
+        if (rule.getRhs().size() == dotPointer)
+            result.append(".");
+
+        return result.toString();
     }
 
 
@@ -34,18 +46,37 @@ public class ItemLR0 {
     }
 
     boolean goTo() {
-//        if (dotPointer >= rule.getRightHandSided.length) {
-//            return false;
-//        }
-//        dotPointer++;
+        if (dotPointer >= rule.getRhs().size())
+            return false;
+
+        dotPointer++;
         return true;
     }
 
     String getCurrentTerminal() {
-//        if(dotPointer == rightSide.length){
-//            return null;
-//        }
-        return "";
+        if (dotPointer == rule.getRhs().size())
+            return null;
+
+        return rule.getRhs().get(dotPointer);
     }
 
+    public Rule getRule() {
+        return rule;
+    }
+
+    public void setRule(Rule rule) {
+        this.rule = rule;
+    }
+
+    public void setDotPointer(int dotPointer) {
+        this.dotPointer = dotPointer;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 }
