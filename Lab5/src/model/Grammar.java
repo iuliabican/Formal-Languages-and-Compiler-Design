@@ -18,6 +18,7 @@ public class Grammar {
         this.setOfNonTerminals = new ArrayList<String>();
         this.setOfTerminals = new ArrayList<String>();
         this.setOfProductions = new ArrayList<>();
+        this.rules = new ArrayList<>();
         this.startingSymbol = "";
     }
 
@@ -86,6 +87,14 @@ public class Grammar {
             }
         }
         return rulesBySymbol;
+    }
+
+    public List<Rule> getRules() {
+        return rules;
+    }
+
+    public void setRules(List<Rule> rules) {
+        this.rules = rules;
     }
 
     public List<String> getSetOfNonTerminals() {

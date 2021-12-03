@@ -2,6 +2,7 @@
 import model.CustomScanner;
 import model.FiniteAutomata;
 import model.Grammar;
+import model.ParserLR0;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -140,6 +141,10 @@ public class Main {
                     break;
                 case "0":
                     System.exit(0);
+                case "-":
+                    ParserLR0 parserLR0 = new ParserLR0(grammar);
+                    parserLR0.parse();
+
                 default:
                     System.err.println("Unrecognized option");
                     break;

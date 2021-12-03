@@ -3,38 +3,47 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class StateLR0 {
-    ArrayList<ItemLR0> items;
-    HashMap<String, ItemLR0> transition;
+    LinkedHashSet<ItemLR0> items;
+    HashMap<String, StateLR0> transition;
 
-    public StateLR0(ArrayList<ItemLR0> items, HashMap<String, ItemLR0> transition) {
+    public StateLR0(LinkedHashSet<ItemLR0> items, HashMap<String, StateLR0> transition) {
         this.items = items;
         this.transition = transition;
     }
 
-    public ArrayList<ItemLR0> getItems() {
+    public StateLR0(Grammar grammar, HashSet<ItemLR0> itemLR0s){
+        this.items = new LinkedHashSet<>(itemLR0s);
+        transition = new HashMap<>();
+        closure(grammar);
+    }
+
+    public LinkedHashSet<ItemLR0> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<ItemLR0> items) {
+    public void setItems(LinkedHashSet<ItemLR0> items) {
         this.items = items;
     }
 
-    public HashMap<String, ItemLR0> getTransition() {
+    public HashMap<String, StateLR0> getTransition() {
         return transition;
     }
 
-    public void setTransition(HashMap<String, ItemLR0> transition) {
+    public void setTransition(HashMap<String, StateLR0> transition) {
         this.transition = transition;
     }
 
-    private void addTransition(String symbol, ItemLR0 state){
+    public void addTransition(String symbol, StateLR0 state){
         transition.put(symbol, state);
     }
 
     private void closure(Grammar grammar){
+        boolean flag = false;
         do {
+            flag = false;
             HashSet<ItemLR0> temporaryItems = new HashSet<>();
 
             for (ItemLR0 item: this.items){
@@ -43,12 +52,14 @@ public class StateLR0 {
                     temporaryItems.addAll(createItem(rules));
                 }
             }
-
-            if (!this.items.containsAll(temporaryItems))
+            boolean condition = !this.items.containsAll(temporaryItems);
+            // todo check manually if the temp items exist in this.items since this returns true all the time
+            if (condition){
                 this.items.addAll(temporaryItems);
-            else break;
+                flag = true;
+            }
 
-        } while (true);
+        } while (flag);
     }
 
     private HashSet<ItemLR0> createItem(HashSet<Rule> rules){
