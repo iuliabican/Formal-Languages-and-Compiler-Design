@@ -93,6 +93,10 @@ public class Grammar {
         return rules;
     }
 
+    public int findRuleIndex(Rule rule){
+        return this.rules.indexOf(rule);
+    }
+
     public void setRules(List<Rule> rules) {
         this.rules = rules;
     }

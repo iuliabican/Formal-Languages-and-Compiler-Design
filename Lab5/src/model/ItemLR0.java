@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemLR0 {
 
@@ -51,6 +52,15 @@ public class ItemLR0 {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.dotPointer;
+        hash = 89 * hash + Objects.hashCode(this.rule.getLhs());
+        hash = 89 * hash + Arrays.deepHashCode(this.rule.getRhsArray());
+        return hash;
     }
 
     @Override

@@ -47,6 +47,12 @@ public class Rule {
         return rhs;
     }
 
+    public String[] getRhsArray(){
+        String[] result = new String[rhs.size()];
+        rhs.toArray(result);
+        return result;
+    }
+
     public void setRhs(List<String> rhs) {
         this.rhs = rhs;
     }
