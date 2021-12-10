@@ -48,6 +48,10 @@ public class Rule {
     }
 
     public String[] getRhsArray(){
+        /*
+            Used only for creating the hash of ItemLR0
+            Since the method Arrays.deepHashCode won't work on List<String> objects
+        * */
         String[] result = new String[rhs.size()];
         rhs.toArray(result);
         return result;

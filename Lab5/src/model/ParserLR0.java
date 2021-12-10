@@ -30,12 +30,15 @@ public class ParserLR0 {
 
     public boolean parse(){
         this.createStates();
-        System.out.println( this.canonicalCollection);
         this.createGoToTable();
+        System.out.println( this.canonicalCollectionStr());
+        System.out.println(this.goToTableStr());
         return this.createParsingTable();
+
     }
 
     private void createStates(){
+        // todo add [S -> S`]  (since there is no accept in the parsingTable
         this.canonicalCollection = new ArrayList<>();
         HashSet<ItemLR0> start = new HashSet<>();
         start.add(new ItemLR0(grammar.getRules().get(0)));
@@ -119,14 +122,77 @@ public class ParserLR0 {
                 }
             }
         }
+        System.out.println(this.parsingTableStr());;
         return true;
     }
+
+    public String parsingTableStr() {
+        String str = "Parsing Table : \n";
+        HashSet<String> terminals = new HashSet<>(grammar.getSetOfTerminals());
+        terminals.add("$");
+        str += "                ";
+        for (String terminal : terminals) {
+            str += String.format("%-10s" , terminal);
+        }
+        str += "\n";
+
+        for (int i = 0; i < parsingTable.length; i++) {
+            for (int j = 0; j < (terminals.size()+1)*10+2; j++) {
+                str += "-";
+            }
+            str += "\n";
+            str += String.format("|%-10s|",i);
+            for (String terminal : terminals) {
+                str += String.format("%10s",(parsingTable[i].get(terminal) == null ? "|" : parsingTable[i].get(terminal) + "|"));
+            }
+            str += "\n";
+        }
+        for (int j = 0; j < (terminals.size()+1)*10+2; j++) {
+            str += "-";
+        }
+        return str;
+    }
+
+    public String goToTableStr() {
+        String str = "Go TO Table : \n";
+        str += "          ";
+        for (String variable : grammar.getSymbols()) {
+            str += String.format("%-6s",variable);
+        }
+        str += "\n";
+
+        for (int i = 0; i < goToTable.length; i++) {
+            for (int j = 0; j < (grammar.getSymbols().size()+1)*6+2; j++) {
+                str += "-";
+            }
+            str += "\n";
+            str += String.format("|%-6s|",i);
+            for (String variable : grammar.getSymbols()) {
+                str += String.format("%6s",(goToTable[i].get(variable) == null ? "|" : goToTable[i].get(variable)+"|"));
+            }
+            str += "\n";
+        }
+        for (int j = 0; j < (grammar.getSymbols().size()+1)*6+2; j++) {
+            str += "-";
+        }
+        return str;
+    }
+
+
 
     private void createGoToTable(){
         this.goToTable = new HashMap[canonicalCollection.size()];
 
         for (int i = 0; i < goToTable.length; i++) {
             goToTable[i] = new HashMap<>();
+        }
+
+        for (int i = 0; i < canonicalCollection.size(); i++) {
+            for (String s : canonicalCollection.get(i).getTransition().keySet()) {
+                if (grammar.getSymbols().contains(s)) {
+                    goToTable[i].put(s, findStateIndex(canonicalCollection.get(i).getTransition().get(s)));
+                }
+            }
         }
     }
 

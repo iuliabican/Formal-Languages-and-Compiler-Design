@@ -56,6 +56,9 @@ public class ItemLR0 {
 
     @Override
     public int hashCode() {
+        /*
+            Necessary to run the method .containsAll() on HashSet
+        * */
         int hash = 7;
         hash = 89 * hash + this.dotPointer;
         hash = 89 * hash + Objects.hashCode(this.rule.getLhs());

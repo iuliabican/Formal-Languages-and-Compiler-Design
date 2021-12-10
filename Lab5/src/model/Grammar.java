@@ -12,6 +12,7 @@ public class Grammar {
     private String fileName;
     private List<Production> setOfProductions;
     private Boolean cfgFlag = true;
+    List<String> symbols;
 
     public Grammar(String fileName) {
         this.fileName = fileName;
@@ -20,6 +21,7 @@ public class Grammar {
         this.setOfProductions = new ArrayList<>();
         this.rules = new ArrayList<>();
         this.startingSymbol = "";
+        this.symbols = new ArrayList<>();
     }
 
     public void readFromFile() throws FileNotFoundException {
@@ -51,9 +53,8 @@ public class Grammar {
             var rightHandSide = line.split("->")[1];
 
             List<List<String>> rules = new ArrayList<>();
-            List<String> symbols = new ArrayList<>();
 
-            symbols.addAll(Arrays.asList(leftHandSide.split(" ")));
+            this.symbols.addAll(Arrays.asList(leftHandSide.split(" ")));
 
 
             for (String rule: rightHandSide.split("\\|")){  //  ["a b", "b C s"]
@@ -61,7 +62,7 @@ public class Grammar {
                 for (String item: rule.split(" ")){         // ["a", "b"]
                     items.add(item);
                 }
-                Rule ruleObject = new Rule(symbols.get(0), items);
+                Rule ruleObject = new Rule(symbols.get(symbols.size()-1), items);
                 this.rules.add(ruleObject);
                 rules.add(items);
             }
@@ -75,8 +76,16 @@ public class Grammar {
 
         // Starting Symbol
         this.startingSymbol = scanner.nextLine();
-
+        this.rules.add(0,new Rule("$", List.of(startingSymbol)));
         scanner.close();
+    }
+
+    public List<String> getSymbols() {
+        return symbols;
+    }
+
+    public void setSymbols(List<String> symbols) {
+        this.symbols = symbols;
     }
 
     public HashSet<Rule> getRulesBySymbol(String symbol){

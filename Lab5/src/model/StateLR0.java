@@ -71,4 +71,9 @@ public class StateLR0 {
         return results;
     }
 
+    @Override
+    public String toString() {
+        return "StateLR0{" +
+                "items=" + items ;
+    }
 }
