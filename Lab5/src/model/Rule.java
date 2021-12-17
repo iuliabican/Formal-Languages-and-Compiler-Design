@@ -29,7 +29,7 @@ public class Rule {
         if (!Objects.equals(this.lhs, other.lhs)) {
             return false;
         }
-        if (this.rhs.equals(other.rhs)) {
+        if (!this.rhs.equals(other.rhs)) {
             return false;
         }
         return true;

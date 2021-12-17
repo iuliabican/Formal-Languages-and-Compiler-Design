@@ -97,6 +97,7 @@ public class Main {
         System.out.println("3 - Show productions");
         System.out.println("4 - Show starting symbol");
         System.out.println("5 - Show if CFG");
+        System.out.println("6 - Show parsing results");
         System.out.println("0 - Exit \n");
     }
 
@@ -141,9 +142,11 @@ public class Main {
                     break;
                 case "0":
                     System.exit(0);
-                case "-":
+                case "6":
                     ParserLR0 parserLR0 = new ParserLR0(grammar);
                     parserLR0.parse();
+                    System.out.println("\n");
+                    break;
 
                 default:
                     System.err.println("Unrecognized option");

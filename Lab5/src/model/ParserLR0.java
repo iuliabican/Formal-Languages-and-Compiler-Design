@@ -38,7 +38,6 @@ public class ParserLR0 {
     }
 
     private void createStates(){
-        // todo add [S -> S`]  (since there is no accept in the parsingTable
         this.canonicalCollection = new ArrayList<>();
         HashSet<ItemLR0> start = new HashSet<>();
         start.add(new ItemLR0(grammar.getRules().get(0)));
@@ -102,17 +101,20 @@ public class ParserLR0 {
         for (int i = 0; i < canonicalCollection.size(); i++) {
             for (ItemLR0 item : canonicalCollection.get(i).getItems()) {
                 if (item.getDotPointer() == item.getRule().getRhs().size()) {
-                    if (item.getRule().getLhs().equals("S'")) {
+                    if (item.getRule().getLhs().equals("$")) {
                         parsingTable[i].put("$", new Action(ActionType.ACCEPT, 0));
                     } else {
                         HashSet<String> terminals = new HashSet<String>(grammar.getSetOfTerminals()) ;
                         terminals.add("$");
                         Rule rule = new Rule(item.getRule().getLhs(), item.getRule().getRhs());
-                        int index = grammar.findRuleIndex(rule);
+                        int index = grammar.findRuleIndex(rule) + 1;
                         Action action = new Action(ActionType.REDUCE, index);
                         for (String str : terminals) {
                             if (parsingTable[i].get(str) != null) {
-                                System.out.println("it has a REDUCE-" + parsingTable[i].get(str).getType() + " confilct in state " + i);
+                                System.out.println("it has a REDUCE-" + parsingTable[i].get(str).getType() + " conflict in state " + i);
+                                System.out.println(", more precisely, between: ");
+                                System.out.println(parsingTable[i].get(str).toString() + ": " + grammar.getRules().get(parsingTable[i].get(str).getOperand()));
+                                System.out.println(" and " + action + ": " + grammar.getRules().get(action.getOperand()));
                                 return false;
                             } else {
                                 parsingTable[i].put(str, action);
